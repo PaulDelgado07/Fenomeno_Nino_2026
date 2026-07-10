@@ -48,6 +48,25 @@ services:
       - KAFKA_TRANSACTION_STATE_LOG_MIN_ISR=1
       - KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS=0
       - CLUSTER_ID=MkU3OEVBNTcwNTJENDM2Qk
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: gye_postgres
+    restart: unless-stopped
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: el_nino
+      POSTGRES_USER: el_nino
+      POSTGRES_PASSWORD: el_nino_2026
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U el_nino -d el_nino"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
   spark-master:
     image: apache/spark:3.5.1
     container_name: gye_spark_master
@@ -83,3 +102,4 @@ volumes:
   namenode_data:
   hadoop_datanode:
   kafka_data:
+  postgres_data:
