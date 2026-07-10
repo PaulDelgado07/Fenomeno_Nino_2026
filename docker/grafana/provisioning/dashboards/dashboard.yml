@@ -1,0 +1,11 @@
+apiVersion: 1
+
+providers:
+  - name: El Niño dashboards
+    orgId: 1
+    folder: El Niño
+    type: file
+    disableDeletion: true
+    editable: true
+    options:
+      path: /var/lib/grafana/dashboards

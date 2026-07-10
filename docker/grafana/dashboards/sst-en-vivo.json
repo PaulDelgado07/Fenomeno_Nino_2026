@@ -1,0 +1,106 @@
+{
+  "uid": "sst-en-vivo",
+  "title": "SST El Niño — En vivo",
+  "tags": ["el-nino", "kafka", "spark", "sst"],
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "5s",
+  "time": {
+    "from": "now-15m",
+    "to": "now"
+  },
+  "panels": [
+    {
+      "id": 1,
+      "type": "timeseries",
+      "title": "Temperatura superficial del mar (SST)",
+      "datasource": { "type": "postgres", "uid": "postgres-el-nino" },
+      "gridPos": { "x": 0, "y": 0, "w": 16, "h": 9 },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "celsius",
+          "decimals": 2,
+          "color": { "mode": "palette-classic" }
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "format": "time_series",
+          "rawSql": "SELECT timestamp::timestamp AS time, value AS sst FROM sst_procesada WHERE $__timeFilter(timestamp::timestamp) ORDER BY 1",
+          "select": [[{"type": "column", "params": ["timestamp"]}]],
+          "timeColumn": "timestamp"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "type": "stat",
+      "title": "Última SST",
+      "datasource": { "type": "postgres", "uid": "postgres-el-nino" },
+      "gridPos": { "x": 16, "y": 0, "w": 8, "h": 4 },
+      "fieldConfig": {
+        "defaults": { "unit": "celsius", "decimals": 2 },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "format": "table",
+          "rawSql": "SELECT value AS sst FROM sst_procesada ORDER BY timestamp::timestamp DESC LIMIT 1"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "type": "stat",
+      "title": "Estado actual",
+      "datasource": { "type": "postgres", "uid": "postgres-el-nino" },
+      "gridPos": { "x": 16, "y": 4, "w": 8, "h": 5 },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            { "type": "value", "options": { "Fría": { "color": "blue", "text": "Fría" }, "Normal": { "color": "green", "text": "Normal" }, "Posible El Niño": { "color": "red", "text": "Posible El Niño" } } }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "orientation": "auto",
+        "textMode": "value_and_name",
+        "colorMode": "background"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "format": "table",
+          "rawSql": "SELECT estado FROM sst_procesada ORDER BY timestamp::timestamp DESC LIMIT 1"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "type": "table",
+      "title": "Últimas mediciones recibidas",
+      "datasource": { "type": "postgres", "uid": "postgres-el-nino" },
+      "gridPos": { "x": 0, "y": 9, "w": 24, "h": 8 },
+      "options": { "showHeader": true, "cellHeight": "sm" },
+      "targets": [
+        {
+          "refId": "A",
+          "format": "table",
+          "rawSql": "SELECT timestamp::timestamp AS timestamp, value AS sst_c, unit, lat, lon, estado FROM sst_procesada ORDER BY timestamp::timestamp DESC LIMIT 20"
+        }
+      ]
+    }
+  ]
+}

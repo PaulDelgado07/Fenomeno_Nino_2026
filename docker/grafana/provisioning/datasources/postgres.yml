@@ -1,0 +1,17 @@
+apiVersion: 1
+
+datasources:
+  - name: PostgreSQL El Niño
+    uid: postgres-el-nino
+    type: postgres
+    access: proxy
+    url: postgres:5432
+    user: el_nino
+    database: el_nino
+    isDefault: true
+    editable: false
+    jsonData:
+      postgresVersion: 1600
+      sslmode: disable
+    secureJsonData:
+      password: el_nino_2026
