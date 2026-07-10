@@ -35,11 +35,25 @@ schema = StructType([
     ]), False),
 ])
 
+sngr_schema = StructType([
+    StructField("timestamp", StringType(), False),
+    StructField("source", StringType(), False),
+    StructField("province", StringType(), False),
+    StructField("canton", StringType(), False),
+    StructField("zone", StringType(), False),
+    StructField("alert_level", StringType(), False),
+    StructField("description", StringType(), False),
+    StructField("location", StructType([
+        StructField("lat", DoubleType(), False),
+        StructField("lon", DoubleType(), False),
+    ]), False),
+])
+
+
 
 spark = (
     SparkSession.builder
     .appName("FloodRiskGuayaquil")
-    .master("spark://spark-master:7077")
     .config("spark.cores.max", "2")
     .config("spark.executor.cores", "2")
     .getOrCreate()
@@ -141,4 +155,67 @@ risk_query = (
     .start()
 )
 
+# --- FLUJO DE ALERTAS SNGR ---
+sngr_df = (
+    spark.readStream
+    .format("kafka")
+    .option("kafka.bootstrap.servers", "kafka:29092")
+    .option("subscribe", "alertas-sngr")
+    .option("startingOffsets", "latest")
+    .option("failOnDataLoss", "false")
+    .load()
+)
+
+# HDFS Raw para alertas SNGR
+sngr_raw_query = (
+    sngr_df.selectExpr("topic", "partition", "offset", "timestamp AS kafka_timestamp", "CAST(value AS STRING) AS payload")
+    .writeStream
+    .format("parquet")
+    .option("path", "hdfs://namenode:9000/el_nino/raw/alertas_sngr")
+    .option("checkpointLocation", "hdfs://namenode:9000/el_nino/checkpoints_raw_sngr")
+    .outputMode("append")
+    .start()
+)
+
+sngr_events = (
+    sngr_df.select(from_json(col("value").cast("string"), sngr_schema).alias("event"))
+    .select("event.*")
+    .withColumn("event_time", to_timestamp("timestamp"))
+    .withColumn("event_date", to_date("event_time"))
+    .withColumn("lat", col("location.lat"))
+    .withColumn("lon", col("location.lon"))
+    .drop("location")
+)
+
+# HDFS Staging para alertas SNGR
+sngr_staging_query = (
+    sngr_events.writeStream
+    .format("parquet")
+    .option("path", "hdfs://namenode:9000/el_nino/staging/alertas_sngr")
+    .option("checkpointLocation", "hdfs://namenode:9000/el_nino/checkpoints_staging_sngr")
+    .partitionBy("event_date", "alert_level")
+    .outputMode("append")
+    .start()
+)
+
+def save_sngr(batch_df, batch_id):
+    if batch_df.isEmpty():
+        return
+    
+    # Escribir a Postgres alertas_sngr
+    batch_df.persist()
+    batch_df.write.mode("append").jdbc(POSTGRES_URL, "alertas_sngr", properties=POSTGRES_PROPERTIES)
+    print(f"Lote de alertas SNGR {batch_id} almacenado para {batch_df.count()} alertas.")
+    batch_df.unpersist()
+
+# Postgres Sink para alertas SNGR
+sngr_postgres_query = (
+    sngr_events.writeStream
+    .foreachBatch(save_sngr)
+    .option("checkpointLocation", "hdfs://namenode:9000/el_nino/checkpoints_postgres_sngr")
+    .outputMode("append")
+    .start()
+)
+
 spark.streams.awaitAnyTermination()
+

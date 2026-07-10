@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Plataforma interactiva de monitoreo en tiempo real del fenómeno de El Niño 2026 en Guayaquil, Ecuador. Visualiza riesgo de inundaciones y genera rutas de evacuación.">
+    <title>Plataforma Big Data | Monitoreo El Niño 2026</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    
+    <!-- CSS Propio -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- HEADER -->
+        <header class="app-header">
+            <div class="header-title">
+                <i class="fa-solid fa-cloud-showers-water header-icon"></i>
+                <div class="title-text">
+                    <h1>SISTEMA DE GESTIÓN DE RIESGOS - EL NIÑO 2026</h1>
+                    <p>Monitoreo Big Data y Mapa de Vulnerabilidad de Guayaquil</p>
+                </div>
+            </div>
+            <div class="header-status">
+                <div class="status-badge" id="sst-status-badge">
+                    <span class="status-dot green"></span>
+                    <span id="sst-status-text">Cargando estado ENSO...</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN LAYOUT -->
+        <main class="app-main">
+            <!-- SIDEBAR CONTROL PANEL -->
+            <section class="sidebar-panel">
+                <!-- CONTROLES DE CAPAS -->
+                <div class="panel-section">
+                    <h2><i class="fa-solid fa-layer-group"></i> Capas de Vulnerabilidad</h2>
+                    <div class="layer-controls">
+                        <label class="control-switch" id="switch-combined-label">
+                            <input type="checkbox" id="layer-combined" checked>
+                            <span class="switch-slider"></span>
+                            <span class="switch-text">Escenario Combinado (Lluvia + Marea)</span>
+                            <i class="fa-solid fa-circle-info tooltip-icon" title="Resalta áreas donde coinciden precipitaciones intensas y marea alta, bloqueando el drenaje natural."></i>
+                        </label>
+                        <label class="control-switch">
+                            <input type="checkbox" id="layer-dem" checked>
+                            <span class="switch-slider"></span>
+                            <span class="switch-text">Topografía y Cota Baja (DEM)</span>
+                        </label>
+                        <label class="control-switch">
+                            <input type="checkbox" id="layer-rivers" checked>
+                            <span class="switch-slider"></span>
+                            <span class="switch-text">Red Hidrográfica y Esteros</span>
+                        </label>
+                        <label class="control-switch">
+                            <input type="checkbox" id="layer-history">
+                            <span class="switch-slider"></span>
+                            <span class="switch-text">Zonas Históricamente Inundables</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- EVACUACIÓN -->
+                <div class="panel-section">
+                    <h2><i class="fa-solid fa-route"></i> Ruta de Evacuación</h2>
+                    <div class="evacuation-widget">
+                        <p class="widget-desc">Selecciona una zona inundada en el mapa o escoge una del listado para generar la ruta óptima al albergue seguro más cercano.</p>
+                        <div class="form-group">
+                            <label for="select-zone-evac">Zona de Riesgo:</label>
+                            <select id="select-zone-evac">
+                                <option value="">-- Seleccione una zona --</option>
+                                <option value="Isla Trinitaria">Isla Trinitaria</option>
+                                <option value="Suburbio Oeste">Suburbio Oeste</option>
+                                <option value="Sauces">Sauces</option>
+                                <option value="Samanes">Samanes</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" id="btn-calculate-route">
+                            <i class="fa-solid fa-location-arrow"></i> Calcular Ruta
+                        </button>
+                        <div class="route-result hidden" id="route-result-panel">
+                            <div class="route-stat">
+                                <span class="stat-label">Destino:</span>
+                                <span class="stat-value" id="route-dest">-</span>
+                            </div>
+                            <div class="route-stat">
+                                <span class="stat-label">Distancia vial:</span>
+                                <span class="stat-value" id="route-dist">-</span>
+                            </div>
+                            <div class="route-stat">
+                                <span class="stat-label">Tiempo estimado:</span>
+                                <span class="stat-value" id="route-time">-</span>
+                            </div>
+                            <button class="btn btn-danger btn-sm" id="btn-clear-route">Limpiar Ruta</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ALERTAS SNGR -->
+                <div class="panel-section alerts-section">
+                    <h2><i class="fa-solid fa-circle-exclamation text-yellow"></i> Alertas SNGR en Vivo</h2>
+                    <div class="alerts-container" id="alerts-ticker">
+                        <div class="alert-item info">
+                            <p class="alert-time">Hace unos instantes</p>
+                            <p class="alert-text">Esperando reporte de alertas del pipeline de datos...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CENTRAL CONTENT (MAP & CHARTS) -->
+            <section class="content-panel">
+                <div class="map-wrapper card">
+                    <div id="map"></div>
+                    <div class="map-legend">
+                        <h4>Riesgo de Inundación</h4>
+                        <div class="legend-items">
+                            <div class="legend-item"><span class="color-box critic"></span> Crítico (&ge; 70)</div>
+                            <div class="legend-item"><span class="color-box alto"></span> Alto (50 - 69)</div>
+                            <div class="legend-item"><span class="color-box medio"></span> Medio (30 - 49)</div>
+                            <div class="legend-item"><span class="color-box bajo"></span> Bajo (< 30)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="charts-row">
+                    <div class="chart-container card">
+                        <h3><i class="fa-solid fa-chart-line"></i> Anomalía SST - Canal NOAA (°C)</h3>
+                        <div id="sst-chart"></div>
+                    </div>
+                    <div class="chart-container card">
+                        <h3><i class="fa-solid fa-chart-bar"></i> Precipitaciones por Zona (mm/h)</h3>
+                        <div id="precip-chart"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
+    <!-- ApexCharts JS -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    
+    <!-- JS Propio -->
+    <script src="app.js"></script>
+</body>
+</html>

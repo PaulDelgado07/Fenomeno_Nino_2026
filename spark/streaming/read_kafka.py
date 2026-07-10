@@ -25,7 +25,6 @@ POSTGRES_PROPERTIES = {
 spark = (
     SparkSession.builder
     .appName("KafkaStreamingSST")
-    .master("spark://spark-master:7077")
     .config("spark.cores.max", "2")
     .config("spark.executor.cores", "2")
     .getOrCreate()

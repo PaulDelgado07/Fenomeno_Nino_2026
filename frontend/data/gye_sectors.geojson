@@ -1,0 +1,81 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Samanes",
+        "description": "Sector residencial del norte de Guayaquil. Cota media-alta con susceptibilidad baja a inundaciones excepto en canales obstruidos."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-79.9100, -2.1100],
+            [-79.8900, -2.1100],
+            [-79.8900, -2.1300],
+            [-79.9100, -2.1300],
+            [-79.9100, -2.1100]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Sauces",
+        "description": "Sector residencial norte-centro de Guayaquil. Cota baja, propenso a anegamiento por lluvias intensas debido a su cercanía al río Daule."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-79.9120, -2.1350],
+            [-79.8850, -2.1350],
+            [-79.8850, -2.1600],
+            [-79.9120, -2.1600],
+            [-79.9120, -2.1350]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Suburbio Oeste",
+        "description": "Zona populosa del suroeste de Guayaquil, asentada originalmente sobre esteros rellenos. Cota muy baja y alta vulnerabilidad por mareas."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-79.9350, -2.1850],
+            [-79.9050, -2.1850],
+            [-79.9050, -2.2150],
+            [-79.9350, -2.2150],
+            [-79.9350, -2.1850]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Isla Trinitaria",
+        "description": "Península rodeada por el Estero Salado en el sur de Guayaquil. Zonas de invasión y asentamientos con cota crítica (1.5m - 2m sobre el nivel del mar). Muy vulnerable a pleamares."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-79.9200, -2.2200],
+            [-79.8950, -2.2200],
+            [-79.8950, -2.2550],
+            [-79.9200, -2.2550],
+            [-79.9200, -2.2200]
+          ]
+        ]
+      }
+    }
+  ]
+}

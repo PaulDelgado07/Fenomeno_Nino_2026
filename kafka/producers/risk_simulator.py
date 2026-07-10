@@ -11,6 +11,7 @@ TOPICS = {
     "precipitation": "precip-gpm",
     "tide": "mareas-inocar",
     "reservoir": "nivel-embalse-celec",
+    "sngr": "alertas-sngr",
 }
 
 # Valores representativos para una demostración académica; no son mediciones oficiales.
@@ -32,6 +33,19 @@ def build_message(zone, source, variable, value, unit):
         "zone": zone["zone"],
         "elevation_m": zone["elevation_m"],
         "base_vulnerability": zone["vulnerability"],
+        "location": {"lat": zone["lat"], "lon": zone["lon"]},
+    }
+
+
+def build_sngr_message(zone, alert_level, description):
+    return {
+        "timestamp": datetime.now().isoformat(),
+        "source": "SNGR (simulado)",
+        "province": "Guayas",
+        "canton": "Guayaquil",
+        "zone": zone["zone"],
+        "alert_level": alert_level,
+        "description": description,
         "location": {"lat": zone["lat"], "lon": zone["lon"]},
     }
 
@@ -61,6 +75,36 @@ while True:
                 build_message(zone, "CELEC Daule-Peripa (simulado)", "reservoir_pct", reservoir_pct, "%"),
             ),
         ]
+
+        # Lógica de alertas de la SNGR basada en condiciones del ciclo
+        sngr_msg = None
+        if rain_mm_h >= 45.0 and tide_m >= 3.2:
+            sngr_msg = build_sngr_message(
+                zone,
+                "Roja",
+                f"Peligro extremo en {zone['zone']}: Inundación inminente por coincidencia de marea máxima ({tide_m:.2f}m) y lluvias torrenciales ({rain_mm_h:.2f} mm/h)."
+            )
+        elif rain_mm_h >= 30.0 or tide_m >= 2.8:
+            sngr_msg = build_sngr_message(
+                zone,
+                "Naranja",
+                f"Riesgo alto en {zone['zone']}: Acumulación severa de agua de lluvia ({rain_mm_h:.2f} mm/h) y problemas en drenes con marea de {tide_m:.2f}m."
+            )
+        elif rain_mm_h >= 15.0 or tide_m >= 2.2:
+            sngr_msg = build_sngr_message(
+                zone,
+                "Amarilla",
+                f"Atención en {zone['zone']}: Calzadas húmedas y posible anegamiento preventivo por lluvias locales."
+            )
+        elif random.random() < 0.15:
+            sngr_msg = build_sngr_message(
+                zone,
+                "Verde",
+                f"Condiciones normales en {zone['zone']}: Monitoreo preventivo activo en el cantón."
+            )
+
+        if sngr_msg:
+            messages.append((TOPICS["sngr"], sngr_msg))
 
         for topic, message in messages:
             send_message(message, topic)
