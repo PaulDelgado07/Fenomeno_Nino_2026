@@ -10,8 +10,9 @@ producer = KafkaProducer(
 )
 
 
-def send_message(message):
-    future = producer.send(TOPIC_NAME, message)
+def send_message(message, topic=TOPIC_NAME):
+    """Envía un mensaje JSON al topic indicado."""
+    future = producer.send(topic, message)
 
     metadata = future.get(timeout=10)
 
