@@ -7,6 +7,13 @@ from pyspark.sql.types import (
     DoubleType
 )
 
+
+KAFKA_BOOTSTRAP_SERVERS = "kafka:29092"
+KAFKA_TOPIC = "sst-noaa"
+HDFS_OUTPUT_PATH = "hdfs://namenode:9000/el_nino/streaming"
+HDFS_CHECKPOINT_PATH = "hdfs://namenode:9000/el_nino/checkpoints"
+CONSOLE_CHECKPOINT_PATH = "hdfs://namenode:9000/el_nino/checkpoints_console"
+
 spark = (
     SparkSession.builder
     .appName("KafkaStreamingSST")
@@ -40,9 +47,10 @@ print("==============================")
 df = (
     spark.readStream
     .format("kafka")
-    .option("kafka.bootstrap.servers", "kafka:29092")
-    .option("subscribe", "sst-noaa")
+    .option("kafka.bootstrap.servers", KAFKA_BOOTSTRAP_SERVERS)
+    .option("subscribe", KAFKA_TOPIC)
     .option("startingOffsets", "latest")
+    .option("failOnDataLoss", "false")
     .load()
 )
 
@@ -71,14 +79,27 @@ datos_procesados = (
     )
 )
 
-query = (
+# Guarda los mensajes procesados como Parquet en HDFS.
+parquet_query = (
     datos_procesados.writeStream
     .format("parquet")
-    .option("path", "hdfs://namenode:9000/el_nino/streaming")
-    .option("checkpointLocation", "hdfs://namenode:9000/el_nino/checkpoints")
+    .option("path", HDFS_OUTPUT_PATH)
+    .option("checkpointLocation", HDFS_CHECKPOINT_PATH)
     .outputMode("append")
+    .trigger(processingTime="5 seconds")
     .start()
 )
 
+# Muestra los mismos mensajes en pantalla para comprobar el flujo en tiempo real.
+console_query = (
+    datos_procesados.writeStream
+    .format("console")
+    .option("truncate", "false")
+    .option("numRows", 50)
+    .option("checkpointLocation", CONSOLE_CHECKPOINT_PATH)
+    .outputMode("append")
+    .trigger(processingTime="5 seconds")
+    .start()
+)
 
-query.awaitTermination()
+spark.streams.awaitAnyTermination()
