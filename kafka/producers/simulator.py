@@ -1,15 +1,15 @@
-import random
 import time
 
 from producer import send_message
 from utils import create_message
+from data_sources import get_sst_c
 
 
 print("Simulador iniciado...\n")
 
 while True:
 
-    temperatura = round(random.uniform(27.5, 30.5), 2)
+    temperatura = get_sst_c()
 
     mensaje = create_message(temperatura)
 
