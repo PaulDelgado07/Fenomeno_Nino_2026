@@ -105,20 +105,21 @@ const chartDefaults = {
 // ── Gráfico 1: SST Niño 3.4 ───────────────────────────────
 const sstChart = new ApexCharts(document.querySelector("#sst-chart"), {
     ...chartDefaults,
-    chart: {
-        ...chartDefaults.chart,
-        type: 'area',
-        height: '100%',
-        sparkline: { enabled: false }
-    },
-    stroke: { curve: 'smooth', width: 2.5 },
-    fill: {
-        type: 'gradient',
-        gradient: { shadeIntensity: 1, opacityFrom: 0.35, opacityTo: 0.02, stops: [0, 90] }
-    },
-    colors: ['#0556a0'],
+    chart: { ...chartDefaults.chart, type: 'bar', height: '100%', sparkline: { enabled: false } },
+    plotOptions: { bar: { borderRadius: 4, columnWidth: '60%' } },
+    fill: { type: 'solid' },
+    colors: ['#0891b2'],
+    dataLabels: { enabled: false },
     series: [{ name: 'SST (°C)', data: [] }],
-    xaxis: { type: 'datetime', labels: { style: { fontSize: '10px' }, datetimeUTC: false } },
+    xaxis: {
+        type: 'datetime',
+        labels: {
+            style: { fontSize: '10px' },
+            datetimeUTC: false,
+            format: 'HH:mm'   // ← muestra hora:minuto ya que los datos llegan cada 3s
+        },
+        tickAmount: 6         // ← máximo 6 etiquetas para que no se amontonen
+    },
     yaxis: { title: { text: '°C', style: { fontSize: '10px' } }, min: 25, max: 32, tickAmount: 4,
              labels: { formatter: v => v.toFixed(1) + '°', style: { fontSize: '10px' } } },
     annotations: {
