@@ -1,8 +1,13 @@
+from pathlib import Path
+
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 from sqlalchemy import text
 from database import get_db
+
+FRONTEND_DIR = Path(__file__).resolve().parent.parent / "frontend"
 
 app = FastAPI(
     title="API de Monitoreo Fenómeno El Niño 2026",
@@ -51,8 +56,8 @@ ALBERGUES = [
 ]
 
 
-@app.get("/")
-def read_root():
+@app.get("/api/status")
+def api_status():
     return {
         "project": "Plataforma de Monitoreo Fenómeno de El Niño 2026 - Guayaquil",
         "status": "Online",
@@ -79,8 +84,7 @@ def get_riesgo_actual(db: Session = Depends(get_db)):
         rows = result.fetchall()
         keys = result.keys()
         return [dict(zip(keys, row)) for row in rows]
-    except Exception as e:
-        # Retornar una lista vacía si la tabla aún no ha sido creada por Spark
+    except Exception:
         return []
 
 
@@ -92,7 +96,7 @@ def get_sst_historico(db: Session = Depends(get_db)):
         rows = result.fetchall()
         keys = result.keys()
         return [dict(zip(keys, row)) for row in rows]
-    except Exception as e:
+    except Exception:
         return []
 
 
@@ -104,5 +108,9 @@ def get_alertas(db: Session = Depends(get_db)):
         rows = result.fetchall()
         keys = result.keys()
         return [dict(zip(keys, row)) for row in rows]
-    except Exception as e:
+    except Exception:
         return []
+
+
+# Sirve el dashboard completo (HTML, CSS, JS, GeoJSON) desde el mismo puerto que la API.
+app.mount("/", StaticFiles(directory=str(FRONTEND_DIR), html=True), name="frontend")

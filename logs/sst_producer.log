@@ -1,0 +1,129 @@
+/Users/criss/Desktop/bigdata-el-nino-2026/kafka/producers/simulator.py:3: DeprecationWarning: value_serializer does not implement kafka.serializer.Serializer
+  from producer import send_message
+Simulador iniciado...
+
+[data_sources] SST actualizada desde NOAA CPC: 28.71 °C (AMJ 2026)
+{'timestamp': '2026-07-12T16:57:10.467670', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 912
+{'timestamp': '2026-07-12T16:57:16.021383', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 913
+{'timestamp': '2026-07-12T16:57:21.184403', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 914
+{'timestamp': '2026-07-12T16:57:26.272521', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 915
+{'timestamp': '2026-07-12T16:57:31.397665', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 916
+{'timestamp': '2026-07-12T16:57:36.620285', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 917
+{'timestamp': '2026-07-12T16:57:41.897767', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 918
+{'timestamp': '2026-07-12T16:57:47.001323', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 919
+{'timestamp': '2026-07-12T16:57:52.093665', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 920
+{'timestamp': '2026-07-12T16:57:57.136896', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 921
+{'timestamp': '2026-07-12T16:58:02.207035', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 922
+{'timestamp': '2026-07-12T16:58:07.302256', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 923
+{'timestamp': '2026-07-12T16:58:12.354066', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 924
+{'timestamp': '2026-07-12T16:58:17.438480', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 925
+{'timestamp': '2026-07-12T16:58:22.490619', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 926
+{'timestamp': '2026-07-12T16:58:27.627630', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 927
+{'timestamp': '2026-07-12T16:58:32.819349', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 928
+{'timestamp': '2026-07-12T16:58:37.879826', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 929
+{'timestamp': '2026-07-12T16:58:43.094563', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 930
+{'timestamp': '2026-07-12T16:58:48.128165', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 931
+{'timestamp': '2026-07-12T16:58:53.187601', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 932
+{'timestamp': '2026-07-12T16:58:58.249172', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 933
+{'timestamp': '2026-07-12T16:59:03.275896', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 934
+{'timestamp': '2026-07-12T16:59:08.333760', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 935
+{'timestamp': '2026-07-12T16:59:13.374990', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 936
+{'timestamp': '2026-07-12T16:59:18.568947', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 937
+{'timestamp': '2026-07-12T16:59:23.604250', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 938
+{'timestamp': '2026-07-12T16:59:28.745223', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 939
+{'timestamp': '2026-07-12T16:59:34.064068', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 940
+{'timestamp': '2026-07-12T16:59:39.116093', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 941
+{'timestamp': '2026-07-12T16:59:44.259432', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 942
+{'timestamp': '2026-07-12T16:59:49.328966', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 943
+{'timestamp': '2026-07-12T16:59:54.352918', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 944
+{'timestamp': '2026-07-12T16:59:59.391792', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 945
+{'timestamp': '2026-07-12T17:00:04.426306', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 946
+{'timestamp': '2026-07-12T17:00:09.448394', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 947
+{'timestamp': '2026-07-12T17:00:14.468878', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 948
+{'timestamp': '2026-07-12T17:00:19.507219', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 949
+{'timestamp': '2026-07-12T17:00:24.547308', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 950
+{'timestamp': '2026-07-12T17:00:29.621333', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 951
+{'timestamp': '2026-07-12T17:00:34.645324', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 952
+{'timestamp': '2026-07-12T17:00:39.676923', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 953
+{'timestamp': '2026-07-12T17:00:44.693884', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 954
+{'timestamp': '2026-07-12T17:00:49.706589', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 955
+{'timestamp': '2026-07-12T17:00:54.799400', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 956
+{'timestamp': '2026-07-12T17:00:59.824012', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 957
+{'timestamp': '2026-07-12T17:01:04.843201', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 958
+{'timestamp': '2026-07-12T17:01:09.858083', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 959
+{'timestamp': '2026-07-12T17:01:14.873796', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 960
+{'timestamp': '2026-07-12T17:01:19.892936', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 961
+{'timestamp': '2026-07-12T17:01:24.908136', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 962
+{'timestamp': '2026-07-12T17:01:29.917155', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 963
+{'timestamp': '2026-07-12T17:01:34.931333', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 964
+{'timestamp': '2026-07-12T17:01:39.946942', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 965
+{'timestamp': '2026-07-12T17:01:44.975221', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 966
+{'timestamp': '2026-07-12T17:01:50.013311', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 967
+{'timestamp': '2026-07-12T17:01:55.080876', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 968
+{'timestamp': '2026-07-12T17:02:00.117785', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 969
+{'timestamp': '2026-07-12T17:02:05.238090', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 970
+{'timestamp': '2026-07-12T17:02:10.272318', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 971
+{'timestamp': '2026-07-12T17:02:15.289254', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 972
+{'timestamp': '2026-07-12T17:02:20.314955', 'source': 'SIMULADOR', 'variable': 'SST', 'value': 28.71, 'unit': '°C', 'location': {'lat': -2.170998, 'lon': -79.922359}}
+✅ Enviado -> Topic: sst-noaa, Partición: 0, Offset: 973

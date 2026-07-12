@@ -5,6 +5,7 @@ import time
 from datetime import datetime
 
 from producer import send_message
+from data_sources import get_tide_m
 
 
 TOPICS = {
@@ -54,7 +55,7 @@ print("Simulador hidrometeorológico iniciado. Ctrl+C para detenerlo.\n")
 
 while True:
     # El mismo escenario de marea y embalse aplica a todos los sectores del ciclo.
-    tide_m = random.uniform(2.0, 3.8)
+    tide_m = get_tide_m()
     reservoir_pct = random.uniform(72.0, 96.0)
 
     for zone in ZONES:
