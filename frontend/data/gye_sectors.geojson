@@ -5,17 +5,31 @@
       "type": "Feature",
       "properties": {
         "name": "Samanes",
-        "description": "Sector residencial del norte de Guayaquil. Cota media-alta con susceptibilidad baja a inundaciones excepto en canales obstruidos."
+        "description": "Sector residencial del norte de Guayaquil. Cota media-alta con susceptibilidad baja a inundaciones excepto en canales obstruidos.",
+        "elevation_m": 9.0,
+        "base_vulnerability": 0.35,
+        "population_estimate": 85000,
+        "area_km2": 4.2,
+        "main_risk_factor": "Canales pluviales obstruidos en época lluviosa",
+        "rivers_nearby": ["Canal Norte"],
+        "infrastructure": "Residencial consolidado, calles pavimentadas"
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
           [
-            [-79.9100, -2.1100],
-            [-79.8900, -2.1100],
-            [-79.8900, -2.1300],
-            [-79.9100, -2.1300],
-            [-79.9100, -2.1100]
+            [-79.9130, -2.1080],
+            [-79.9050, -2.1060],
+            [-79.8960, -2.1080],
+            [-79.8880, -2.1120],
+            [-79.8860, -2.1200],
+            [-79.8880, -2.1290],
+            [-79.8950, -2.1330],
+            [-79.9050, -2.1340],
+            [-79.9130, -2.1310],
+            [-79.9160, -2.1230],
+            [-79.9150, -2.1150],
+            [-79.9130, -2.1080]
           ]
         ]
       }
@@ -24,17 +38,32 @@
       "type": "Feature",
       "properties": {
         "name": "Sauces",
-        "description": "Sector residencial norte-centro de Guayaquil. Cota baja, propenso a anegamiento por lluvias intensas debido a su cercanía al río Daule."
+        "description": "Sector residencial norte-centro de Guayaquil. Cota baja, propenso a anegamiento por lluvias intensas debido a su cercanía al río Daule.",
+        "elevation_m": 5.0,
+        "base_vulnerability": 0.65,
+        "population_estimate": 130000,
+        "area_km2": 5.8,
+        "main_risk_factor": "Proximidad al Río Daule y saturación del sistema pluvial",
+        "rivers_nearby": ["Río Daule"],
+        "infrastructure": "Residencial denso, red vial parcialmente pavimentada"
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
           [
-            [-79.9120, -2.1350],
-            [-79.8850, -2.1350],
-            [-79.8850, -2.1600],
-            [-79.9120, -2.1600],
-            [-79.9120, -2.1350]
+            [-79.9150, -2.1340],
+            [-79.9080, -2.1330],
+            [-79.8980, -2.1340],
+            [-79.8870, -2.1380],
+            [-79.8840, -2.1460],
+            [-79.8860, -2.1550],
+            [-79.8930, -2.1610],
+            [-79.9020, -2.1630],
+            [-79.9120, -2.1610],
+            [-79.9180, -2.1560],
+            [-79.9200, -2.1460],
+            [-79.9180, -2.1380],
+            [-79.9150, -2.1340]
           ]
         ]
       }
@@ -43,17 +72,33 @@
       "type": "Feature",
       "properties": {
         "name": "Suburbio Oeste",
-        "description": "Zona populosa del suroeste de Guayaquil, asentada originalmente sobre esteros rellenos. Cota muy baja y alta vulnerabilidad por mareas."
+        "description": "Zona populosa del suroeste de Guayaquil, asentada originalmente sobre esteros rellenos. Cota muy baja y alta vulnerabilidad por mareas.",
+        "elevation_m": 3.0,
+        "base_vulnerability": 0.85,
+        "population_estimate": 320000,
+        "area_km2": 9.1,
+        "main_risk_factor": "Cota muy baja + relleno de esteros + marea alta bloquea drenaje",
+        "rivers_nearby": ["Estero Salado", "Estero Santa Ana"],
+        "infrastructure": "Asentamiento consolidado sobre relleno, calles estrechas"
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
           [
-            [-79.9350, -2.1850],
-            [-79.9050, -2.1850],
-            [-79.9050, -2.2150],
-            [-79.9350, -2.2150],
-            [-79.9350, -2.1850]
+            [-79.9380, -2.1840],
+            [-79.9280, -2.1820],
+            [-79.9150, -2.1830],
+            [-79.9050, -2.1860],
+            [-79.8990, -2.1920],
+            [-79.9000, -2.2000],
+            [-79.9050, -2.2080],
+            [-79.9130, -2.2150],
+            [-79.9250, -2.2180],
+            [-79.9370, -2.2160],
+            [-79.9430, -2.2090],
+            [-79.9440, -2.1980],
+            [-79.9400, -2.1890],
+            [-79.9380, -2.1840]
           ]
         ]
       }
@@ -62,17 +107,101 @@
       "type": "Feature",
       "properties": {
         "name": "Isla Trinitaria",
-        "description": "Península rodeada por el Estero Salado en el sur de Guayaquil. Zonas de invasión y asentamientos con cota crítica (1.5m - 2m sobre el nivel del mar). Muy vulnerable a pleamares."
+        "description": "Península rodeada por el Estero Salado en el sur de Guayaquil. Zonas de invasión y asentamientos con cota crítica (1.5m - 2m sobre el nivel del mar). Muy vulnerable a pleamares.",
+        "elevation_m": 2.0,
+        "base_vulnerability": 0.95,
+        "population_estimate": 185000,
+        "area_km2": 6.4,
+        "main_risk_factor": "Cota crítica ≤ 2m + rodeada por Estero Salado + sin infraestructura de drenaje",
+        "rivers_nearby": ["Estero Salado", "Canal Sur"],
+        "infrastructure": "Asentamiento informal, vías sin pavimentar en sectores bajos"
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
           [
-            [-79.9200, -2.2200],
-            [-79.8950, -2.2200],
-            [-79.8950, -2.2550],
-            [-79.9200, -2.2550],
-            [-79.9200, -2.2200]
+            [-79.9230, -2.2180],
+            [-79.9130, -2.2160],
+            [-79.9020, -2.2180],
+            [-79.8940, -2.2240],
+            [-79.8920, -2.2330],
+            [-79.8950, -2.2430],
+            [-79.9020, -2.2520],
+            [-79.9110, -2.2570],
+            [-79.9210, -2.2560],
+            [-79.9290, -2.2510],
+            [-79.9330, -2.2420],
+            [-79.9320, -2.2310],
+            [-79.9270, -2.2230],
+            [-79.9230, -2.2180]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Daule",
+        "description": "Ciudad a orillas del Río Daule, aguas arriba de Guayaquil. Expuesta a crecidas del río Daule y regulada parcialmente por el embalse Daule-Peripa (CELEC EP).",
+        "elevation_m": 4.5,
+        "base_vulnerability": 0.75,
+        "population_estimate": 95000,
+        "area_km2": 8.5,
+        "main_risk_factor": "Crecidas del Río Daule cuando el embalse Daule-Peripa supera el 90% de capacidad",
+        "rivers_nearby": ["Río Daule", "Río Peripa"],
+        "infrastructure": "Ciudad intermedia, zona agrícola circundante muy expuesta"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-79.9950, -1.8450],
+            [-79.9820, -1.8430],
+            [-79.9700, -1.8460],
+            [-79.9620, -1.8530],
+            [-79.9590, -1.8640],
+            [-79.9620, -1.8750],
+            [-79.9720, -1.8820],
+            [-79.9850, -1.8840],
+            [-79.9980, -1.8810],
+            [-80.0060, -1.8730],
+            [-80.0080, -1.8610],
+            [-80.0040, -1.8510],
+            [-79.9950, -1.8450]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Samborondón",
+        "description": "Cantón ubicado entre los ríos Daule y Babahoyo (Delta del Guayas). Zonas residenciales de alto valor con riesgo moderado por crecidas combinadas.",
+        "elevation_m": 3.5,
+        "base_vulnerability": 0.60,
+        "population_estimate": 75000,
+        "area_km2": 7.2,
+        "main_risk_factor": "Ubicado en el delta Daule-Babahoyo, vulnerable a crecidas por marea de sicigia",
+        "rivers_nearby": ["Río Daule", "Río Babahoyo", "Brazo del Guayas"],
+        "infrastructure": "Zona residencial de alta densidad, urbanizaciones cerradas, vías principales"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-79.8750, -2.0700],
+            [-79.8630, -2.0680],
+            [-79.8510, -2.0720],
+            [-79.8430, -2.0800],
+            [-79.8410, -2.0910],
+            [-79.8450, -2.1020],
+            [-79.8550, -2.1090],
+            [-79.8680, -2.1110],
+            [-79.8800, -2.1080],
+            [-79.8880, -2.1000],
+            [-79.8900, -2.0880],
+            [-79.8860, -2.0770],
+            [-79.8750, -2.0700]
           ]
         ]
       }

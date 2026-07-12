@@ -4,19 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Plataforma interactiva de monitoreo en tiempo real del fenómeno de El Niño 2026 en Guayaquil, Ecuador. Visualiza riesgo de inundaciones y genera rutas de evacuación.">
-    <title>Plataforma Big Data | Monitoreo El Niño 2026</title>
-    
+    <title>Plataforma Big Data | Monitoreo El Niño 2026 — Guayaquil</title>
+
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
+
     <!-- FontAwesome para iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-    
+
     <!-- CSS Propio -->
     <link rel="stylesheet" href="style.css">
 </head>
@@ -25,49 +25,137 @@
         <!-- HEADER -->
         <header class="app-header">
             <div class="header-title">
-                <i class="fa-solid fa-cloud-showers-water header-icon"></i>
+                <div class="header-icon-wrap">
+                    <i class="fa-solid fa-cloud-showers-water header-icon"></i>
+                </div>
                 <div class="title-text">
-                    <h1>SISTEMA DE GESTIÓN DE RIESGOS - EL NIÑO 2026</h1>
-                    <p>Monitoreo Big Data y Mapa de Vulnerabilidad de Guayaquil</p>
+                    <h1>SISTEMA DE GESTIÓN DE RIESGOS — EL NIÑO 2026</h1>
+                    <p>Pipeline Big Data: Kafka · Spark · HDFS · PostgreSQL · Dashboard Web</p>
                 </div>
             </div>
-            <div class="header-status">
+            <div class="header-right">
+                <div class="data-sources">
+                    <span class="source-badge noaa">NOAA CPC</span>
+                    <span class="source-badge inocar">INOCAR</span>
+                    <span class="source-badge celec">CELEC EP</span>
+                    <span class="source-badge gpm">NASA GPM</span>
+                    <span class="source-badge sngr">SNGR</span>
+                </div>
                 <div class="status-badge" id="sst-status-badge">
-                    <span class="status-dot green"></span>
+                    <span class="status-dot yellow"></span>
                     <span id="sst-status-text">Cargando estado ENSO...</span>
+                </div>
+                <div class="refresh-indicator" id="refresh-indicator">
+                    <i class="fa-solid fa-arrows-rotate" id="refresh-icon"></i>
+                    <span id="refresh-countdown">3s</span>
                 </div>
             </div>
         </header>
+
+        <!-- KPI BAR -->
+        <div class="kpi-bar">
+            <div class="kpi-card" id="kpi-sst">
+                <div class="kpi-icon sst"><i class="fa-solid fa-temperature-high"></i></div>
+                <div class="kpi-info">
+                    <span class="kpi-label">SST Pacífico (Niño 3.4)</span>
+                    <span class="kpi-value" id="kpi-sst-val">--°C</span>
+                </div>
+            </div>
+            <div class="kpi-card" id="kpi-anom">
+                <div class="kpi-icon anomaly"><i class="fa-solid fa-wave-square"></i></div>
+                <div class="kpi-info">
+                    <span class="kpi-label">Anomalía ENSO</span>
+                    <span class="kpi-value" id="kpi-anom-val">-- (--)</span>
+                </div>
+            </div>
+            <div class="kpi-card" id="kpi-rain">
+                <div class="kpi-icon rain"><i class="fa-solid fa-cloud-rain"></i></div>
+                <div class="kpi-info">
+                    <span class="kpi-label">Precipitación máx.</span>
+                    <span class="kpi-value" id="kpi-rain-val">-- mm/h</span>
+                </div>
+            </div>
+            <div class="kpi-card" id="kpi-tide">
+                <div class="kpi-icon tide"><i class="fa-solid fa-water"></i></div>
+                <div class="kpi-info">
+                    <span class="kpi-label">Marea INOCAR</span>
+                    <span class="kpi-value" id="kpi-tide-val">-- m</span>
+                </div>
+            </div>
+            <div class="kpi-card" id="kpi-reservoir">
+                <div class="kpi-icon reservoir"><i class="fa-solid fa-droplet"></i></div>
+                <div class="kpi-info">
+                    <span class="kpi-label">Embalse Daule-Peripa</span>
+                    <span class="kpi-value" id="kpi-reservoir-val">--%</span>
+                </div>
+            </div>
+            <div class="kpi-card kpi-alert-card" id="kpi-alerts">
+                <div class="kpi-icon alert"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                <div class="kpi-info">
+                    <span class="kpi-label">Alertas Activas</span>
+                    <span class="kpi-value" id="kpi-alerts-val">-- zonas</span>
+                </div>
+            </div>
+        </div>
 
         <!-- MAIN LAYOUT -->
         <main class="app-main">
             <!-- SIDEBAR CONTROL PANEL -->
             <section class="sidebar-panel">
+
                 <!-- CONTROLES DE CAPAS -->
                 <div class="panel-section">
                     <h2><i class="fa-solid fa-layer-group"></i> Capas de Vulnerabilidad</h2>
                     <div class="layer-controls">
-                        <label class="control-switch" id="switch-combined-label">
+                        <!-- Escenario Combinado (destacado) -->
+                        <label class="control-switch combined-switch" id="switch-combined-label">
                             <input type="checkbox" id="layer-combined" checked>
                             <span class="switch-slider"></span>
-                            <span class="switch-text">Escenario Combinado (Lluvia + Marea)</span>
-                            <i class="fa-solid fa-circle-info tooltip-icon" title="Resalta áreas donde coinciden precipitaciones intensas y marea alta, bloqueando el drenaje natural."></i>
+                            <span class="switch-text">
+                                <strong>Escenario Combinado</strong>
+                                <small>Lluvia intensa + Marea alta</small>
+                            </span>
+                            <i class="fa-solid fa-circle-info tooltip-icon" title="Resalta áreas donde la marea alta bloquea el drenaje pluvial. Ambos factores juntos provocan represamiento severo."></i>
                         </label>
-                        <label class="control-switch">
+
+                        <div class="layer-group-label">Capas individuales</div>
+
+                        <label class="control-switch" id="switch-dem-label">
+                            <span class="layer-color-dot dem"></span>
                             <input type="checkbox" id="layer-dem" checked>
                             <span class="switch-slider"></span>
-                            <span class="switch-text">Topografía y Cota Baja (DEM)</span>
+                            <span class="switch-text">Topografía / Cotas DEM</span>
                         </label>
-                        <label class="control-switch">
+                        <label class="control-switch" id="switch-rivers-label">
+                            <span class="layer-color-dot rivers"></span>
                             <input type="checkbox" id="layer-rivers" checked>
                             <span class="switch-slider"></span>
                             <span class="switch-text">Red Hidrográfica y Esteros</span>
                         </label>
-                        <label class="control-switch">
+                        <label class="control-switch" id="switch-precip-label">
+                            <span class="layer-color-dot precip"></span>
+                            <input type="checkbox" id="layer-precip" checked>
+                            <span class="switch-slider"></span>
+                            <span class="switch-text">Intensidad de Precipitación</span>
+                        </label>
+                        <label class="control-switch" id="switch-tide-label">
+                            <span class="layer-color-dot tide"></span>
+                            <input type="checkbox" id="layer-tide" checked>
+                            <span class="switch-slider"></span>
+                            <span class="switch-text">Nivel de Marea (INOCAR)</span>
+                        </label>
+                        <label class="control-switch" id="switch-history-label">
+                            <span class="layer-color-dot history"></span>
                             <input type="checkbox" id="layer-history">
                             <span class="switch-slider"></span>
                             <span class="switch-text">Zonas Históricamente Inundables</span>
                         </label>
+                    </div>
+
+                    <!-- Explicación del escenario combinado -->
+                    <div class="combined-explanation" id="combined-explanation">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <p><strong>¿Por qué el escenario combinado agrava el riesgo?</strong> La marea alta reduce la capacidad de descarga por gravedad hacia el estuario. El agua de lluvia queda represada dentro de la ciudad, inundando zonas de cota baja como la Isla Trinitaria y el Suburbio Oeste.</p>
                     </div>
                 </div>
 
@@ -75,73 +163,114 @@
                 <div class="panel-section">
                     <h2><i class="fa-solid fa-route"></i> Ruta de Evacuación</h2>
                     <div class="evacuation-widget">
-                        <p class="widget-desc">Selecciona una zona inundada en el mapa o escoge una del listado para generar la ruta óptima al albergue seguro más cercano.</p>
+                        <p class="widget-desc">Selecciona una zona de riesgo en el mapa o en el listado para calcular la ruta óptima al albergue seguro más cercano (motor: OSRM / red vial OSM).</p>
                         <div class="form-group">
-                            <label for="select-zone-evac">Zona de Riesgo:</label>
+                            <label for="select-zone-evac">Zona de origen:</label>
                             <select id="select-zone-evac">
                                 <option value="">-- Seleccione una zona --</option>
-                                <option value="Isla Trinitaria">Isla Trinitaria</option>
-                                <option value="Suburbio Oeste">Suburbio Oeste</option>
-                                <option value="Sauces">Sauces</option>
-                                <option value="Samanes">Samanes</option>
+                                <option value="Isla Trinitaria">🔴 Isla Trinitaria (Crítico)</option>
+                                <option value="Suburbio Oeste">🟠 Suburbio Oeste (Alto)</option>
+                                <option value="Daule">🟠 Daule (Alto)</option>
+                                <option value="Sauces">🟡 Sauces (Medio)</option>
+                                <option value="Samborondón">🟡 Samborondón (Medio)</option>
+                                <option value="Samanes">🟢 Samanes (Bajo)</option>
                             </select>
                         </div>
                         <button class="btn btn-primary" id="btn-calculate-route">
-                            <i class="fa-solid fa-location-arrow"></i> Calcular Ruta
+                            <i class="fa-solid fa-location-arrow"></i> Calcular Ruta de Evacuación
                         </button>
                         <div class="route-result hidden" id="route-result-panel">
+                            <div class="route-header">
+                                <i class="fa-solid fa-shield-halved"></i>
+                                <span>Ruta calculada por red vial</span>
+                            </div>
                             <div class="route-stat">
-                                <span class="stat-label">Destino:</span>
+                                <span class="stat-label"><i class="fa-solid fa-house-medical"></i> Albergue:</span>
                                 <span class="stat-value" id="route-dest">-</span>
                             </div>
                             <div class="route-stat">
-                                <span class="stat-label">Distancia vial:</span>
+                                <span class="stat-label"><i class="fa-solid fa-road"></i> Distancia:</span>
                                 <span class="stat-value" id="route-dist">-</span>
                             </div>
                             <div class="route-stat">
-                                <span class="stat-label">Tiempo estimado:</span>
+                                <span class="stat-label"><i class="fa-solid fa-person-walking"></i> Tiempo (a pie):</span>
                                 <span class="stat-value" id="route-time">-</span>
                             </div>
-                            <button class="btn btn-danger btn-sm" id="btn-clear-route">Limpiar Ruta</button>
+                            <button class="btn btn-outline btn-sm" id="btn-clear-route">
+                                <i class="fa-solid fa-xmark"></i> Limpiar ruta
+                            </button>
                         </div>
                     </div>
                 </div>
 
                 <!-- ALERTAS SNGR -->
                 <div class="panel-section alerts-section">
-                    <h2><i class="fa-solid fa-circle-exclamation text-yellow"></i> Alertas SNGR en Vivo</h2>
+                    <h2>
+                        <i class="fa-solid fa-circle-exclamation alert-icon-header"></i>
+                        Alertas SNGR en Vivo
+                        <span class="live-badge">EN VIVO</span>
+                    </h2>
                     <div class="alerts-container" id="alerts-ticker">
                         <div class="alert-item info">
-                            <p class="alert-time">Hace unos instantes</p>
-                            <p class="alert-text">Esperando reporte de alertas del pipeline de datos...</p>
+                            <p class="alert-time">Inicializando pipeline...</p>
+                            <p class="alert-text">Esperando datos del sistema de alertas SNGR.</p>
                         </div>
                     </div>
                 </div>
+
             </section>
 
             <!-- CENTRAL CONTENT (MAP & CHARTS) -->
             <section class="content-panel">
+                <!-- MAPA -->
                 <div class="map-wrapper card">
                     <div id="map"></div>
+
+                    <!-- Overlay título del mapa -->
+                    <div class="map-overlay-title">
+                        <h3><i class="fa-solid fa-map-location-dot"></i> Mapa de Vulnerabilidad — Guayaquil</h3>
+                        <p>Índice compuesto de riesgo de inundación por zona / sector</p>
+                    </div>
+
+                    <!-- Leyenda -->
                     <div class="map-legend">
-                        <h4>Riesgo de Inundación</h4>
+                        <h4>Índice de Riesgo</h4>
                         <div class="legend-items">
-                            <div class="legend-item"><span class="color-box critic"></span> Crítico (&ge; 70)</div>
-                            <div class="legend-item"><span class="color-box alto"></span> Alto (50 - 69)</div>
-                            <div class="legend-item"><span class="color-box medio"></span> Medio (30 - 49)</div>
+                            <div class="legend-item"><span class="color-box critic"></span> Crítico (≥ 70)</div>
+                            <div class="legend-item"><span class="color-box alto"></span> Alto (50–69)</div>
+                            <div class="legend-item"><span class="color-box medio"></span> Medio (30–49)</div>
                             <div class="legend-item"><span class="color-box bajo"></span> Bajo (< 30)</div>
+                        </div>
+                        <div class="legend-divider"></div>
+                        <div class="legend-items">
+                            <div class="legend-item"><span class="color-box shelter-dot"></span> Albergue seguro</div>
+                            <div class="legend-item"><span class="color-box route-dot"></span> Ruta evacuación</div>
                         </div>
                     </div>
                 </div>
 
+                <!-- GRÁFICOS -->
                 <div class="charts-row">
                     <div class="chart-container card">
-                        <h3><i class="fa-solid fa-chart-line"></i> Anomalía SST - Canal NOAA (°C)</h3>
+                        <div class="chart-header">
+                            <h3><i class="fa-solid fa-chart-line"></i> Anomalía SST — Niño 3.4 (NOAA)</h3>
+                            <span class="chart-source">Fuente: NOAA CPC / oni.ascii.txt</span>
+                        </div>
                         <div id="sst-chart"></div>
                     </div>
                     <div class="chart-container card">
-                        <h3><i class="fa-solid fa-chart-bar"></i> Precipitaciones por Zona (mm/h)</h3>
+                        <div class="chart-header">
+                            <h3><i class="fa-solid fa-chart-bar"></i> Precipitación por Zona (NASA GPM)</h3>
+                            <span class="chart-source">Fuente: NASA GPM simulado · Última hora</span>
+                        </div>
                         <div id="precip-chart"></div>
+                    </div>
+                    <div class="chart-container card">
+                        <div class="chart-header">
+                            <h3><i class="fa-solid fa-chart-area"></i> Marea + Embalse Daule-Peripa</h3>
+                            <span class="chart-source">Fuente: INOCAR · CELEC EP</span>
+                        </div>
+                        <div id="tide-reservoir-chart"></div>
                     </div>
                 </div>
             </section>
@@ -150,10 +279,10 @@
 
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    
+
     <!-- ApexCharts JS -->
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    
+
     <!-- JS Propio -->
     <script src="app.js"></script>
 </body>
