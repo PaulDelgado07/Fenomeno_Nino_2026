@@ -10,7 +10,7 @@ producer = KafkaProducer(
 )
 
 # REGLA CLAVE: Ajusta este nombre al topic que lea tu script "read_kafka.py"
-TOPIC_NAME = "clima"  
+TOPIC_NAME = "sst-noaa"  
 NOAA_URL = "https://www.cpc.ncep.noaa.gov/data/indices/sstoi.indices"
 
 def iniciar_streaming_historico():

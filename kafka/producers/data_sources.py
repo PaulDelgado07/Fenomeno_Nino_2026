@@ -4,13 +4,13 @@ data_sources.py
 Capa de acceso a datos reales para el pipeline de riesgo.
 
 Por qué existe este archivo separado:
-- Los scrapers (INOCAR, NOAA, etc.) NO deben llamarse cada 5 segundos,
+•⁠ ⁠Los scrapers (INOCAR, NOAA, etc.) NO deben llamarse cada 5 segundos,
   porque las fuentes reales no publican con esa frecuencia (INOCAR es
   trimestral, NOAA es mensual). Si golpeas su servidor cada 5 segundos
   te van a banear la IP.
-- Este módulo guarda el último valor obtenido en memoria (caché) y
+•⁠  ⁠Este módulo guarda el último valor obtenido en memoria (caché) y
   solo vuelve a llamar al scraper cuando pasó REFRESH_SECONDS.
-- Si el scraping falla (sitio caído, cambio de estructura, sin
+•⁠  ⁠Si el scraping falla (sitio caído, cambio de estructura, sin
   internet), NO se cae el simulador: se reusa el último valor bueno
   conocido, o un valor de respaldo si nunca se logró obtener uno.
 
@@ -82,7 +82,7 @@ def get_sst_c():
     return entry["value"]
 
 
-def get_tide_m(year=2025, quarter=3):
+def get_tide_m(year=None, quarter=None):
     """Devuelve la altura de marea más reciente disponible.
 
     Usa caché: solo vuelve a descargar el PDF de INOCAR si pasó
@@ -90,6 +90,12 @@ def get_tide_m(year=2025, quarter=3):
     falla, devuelve el último valor cacheado; si nunca hubo uno,
     devuelve un valor de respaldo razonable para no frenar el pipeline.
     """
+    if year is None or quarter is None:
+        from datetime import datetime
+        now = datetime.now()
+        year = now.year
+        quarter = (now.month - 1) // 3 + 1
+
     entry = _cache["tide_m"]
     ahora = time.time()
 
