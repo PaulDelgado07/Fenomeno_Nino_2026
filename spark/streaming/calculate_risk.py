@@ -12,7 +12,7 @@ PROCESSED_PATH = "hdfs://namenode:9000/el_nino/processed/riesgo_zonas"
 RAW_CHECKPOINT = "hdfs://namenode:9000/el_nino/checkpoints_raw_hidro"
 STAGING_CHECKPOINT = "hdfs://namenode:9000/el_nino/checkpoints_staging_hidro"
 RISK_CHECKPOINT = "hdfs://namenode:9000/el_nino/checkpoints_riesgo"
-POSTGRES_URL = "jdbc:postgresql://postgres:5432/el_nino"
+POSTGRES_URL = "jdbc:postgresql://gye_postgres:5432/el_nino"
 POSTGRES_PROPERTIES = {
     "user": "el_nino",
     "password": "el_nino_2026",
