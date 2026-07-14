@@ -6,7 +6,16 @@ https://www.inocar.mil.ec/mareas/TM/2025/trimestral/GUAYAQUIL_RIO_3.pdf
 Caso INTERMEDIO: no hay HTML que leer directamente ni una API,
 sino un PDF publicado en una URL con patrón predecible
 (año + número de trimestre 1-4). Hay que descargarlo y extraer
-el texto/tabla con pdfplumber.
+la tabla con pdfplumber.
+
+La tabla del PDF muestra los 3 meses del trimestre uno al lado del
+otro, y cada mes se divide en dos columnas (días 1-16 y 17-31). El
+texto plano de pdfplumber intercala esas 6 columnas línea por línea,
+así que NO se puede usar el orden de aparición del texto para saber
+a qué día pertenece cada lectura (una lectura del 1 de julio puede
+aparecer en el texto justo antes que una del 30 de septiembre).
+Por eso extraemos las palabras con su posición (x, y) y reconstruimos
+cada columna por separado.
 """
 
 import re
@@ -17,6 +26,12 @@ from datetime import datetime
 
 # El número de trimestre (1,2,3,4) corresponde a Ene-Mar, Abr-Jun, Jul-Sep, Oct-Dic
 URL_TEMPLATE = "https://www.inocar.mil.ec/mareas/TM/{year}/trimestral/GUAYAQUIL_RIO_{q}.pdf"
+MESES_POR_TRIMESTRE = {
+    1: [1, 2, 3],
+    2: [4, 5, 6],
+    3: [7, 8, 9],
+    4: [10, 11, 12],
+}
 
 
 def descargar_pdf(year, quarter):
@@ -26,47 +41,83 @@ def descargar_pdf(year, quarter):
     return BytesIO(resp.content)
 
 
-def extraer_texto(pdf_bytes):
-    """Extrae todo el texto del PDF. Cada fila representa un día,
-    con valores hora:altura repetidos para las mareas del día."""
-    texto_completo = []
+def _columna_de(x0, limites):
+    for i, limite in enumerate(limites):
+        if x0 < limite:
+            return i
+    return len(limites)
+
+
+def extraer_lecturas(pdf_bytes, year, quarter):
+    """Extrae todas las lecturas de marea del PDF con su fecha/hora real.
+
+    Devuelve una lista de dicts: {"datetime": datetime, "value": float}.
+    """
+    meses = MESES_POR_TRIMESTRE[quarter]
+    lecturas = []
+
     with pdfplumber.open(pdf_bytes) as pdf:
         for page in pdf.pages:
-            texto = page.extract_text()
-            if texto:
-                texto_completo.append(texto)
-    return "\n".join(texto_completo)
+            words = page.extract_words()
+            horas = sorted(w["x0"] for w in words if w["text"] == "HORA")
+            if len(horas) != 6:
+                # Formato inesperado en esta página: no arriesgamos a
+                # inventar columnas, simplemente la saltamos.
+                continue
+
+            # Límites = punto medio entre cada par de columnas consecutivas
+            limites = [(horas[i] + horas[i + 1]) / 2 for i in range(5)]
+
+            columnas = {i: [] for i in range(6)}
+            for w in words:
+                texto = w["text"]
+                if re.fullmatch(r"\d{1,2}", texto) or re.fullmatch(r"\d{4}", texto) or re.fullmatch(r"\d\.\d{2}", texto):
+                    col = _columna_de(w["x0"], limites)
+                    columnas[col].append((w["top"], texto))
+
+            for col_idx, tokens in columnas.items():
+                tokens.sort(key=lambda t: t[0])
+                mes = meses[col_idx // 2]
+                dia_actual = None
+                hora_pendiente = None
+                for _, texto in tokens:
+                    if re.fullmatch(r"\d{1,2}", texto) and 1 <= int(texto) <= 31:
+                        dia_actual = int(texto)
+                    elif re.fullmatch(r"\d{4}", texto):
+                        hora_pendiente = texto
+                    elif re.fullmatch(r"\d\.\d{2}", texto):
+                        if dia_actual is not None and hora_pendiente is not None:
+                            try:
+                                fecha = datetime(
+                                    year, mes, dia_actual,
+                                    int(hora_pendiente[:2]), int(hora_pendiente[2:]),
+                                )
+                            except ValueError:
+                                fecha = None
+                            if fecha is not None:
+                                lecturas.append({"datetime": fecha, "value": float(texto)})
+                        hora_pendiente = None
+
+    return lecturas
 
 
-def parsear_valores_marea(texto):
+def lectura_mas_cercana_a_ahora(lecturas, ahora=None):
+    """De todas las lecturas (predicciones de pleamar/bajamar del trimestre),
+    devuelve la más cercana en el tiempo a `ahora`. Como INOCAR publica
+    predicciones puntuales (no una serie continua), esta es la mejor
+    aproximación a "la marea actual" sin interpolar entre dos extremos.
     """
-    Busca patrones tipo 'HHMM ALTURA' (ej: 0404 0.22) que es como
-    INOCAR reporta cada pleamar/bajamar. Ajusta la regex según lo
-    que veas al inspeccionar el texto extraído real.
-    """
-    patron = re.compile(r"(\d{4})\s+(\d\.\d{2})")
-    resultados = patron.findall(texto)
-
-    mensajes = []
-    for hora, altura in resultados:
-        mensajes.append({
-            "timestamp": datetime.utcnow().isoformat(),
-            "source": "INOCAR",
-            "variable": "tide_m",
-            "hora_reportada": hora,
-            "value": float(altura),
-            "unit": "m",
-            "zone": "Guayaquil (Río Guayas)",
-        })
-    return mensajes
+    if not lecturas:
+        return None
+    if ahora is None:
+        ahora = datetime.now()
+    return min(lecturas, key=lambda l: abs((l["datetime"] - ahora).total_seconds()))
 
 
 if __name__ == "__main__":
-    pdf_bytes = descargar_pdf(year=2025, quarter=3)
-    texto = extraer_texto(pdf_bytes)
-    mensajes = parsear_valores_marea(texto)
+    pdf_bytes = descargar_pdf(year=2026, quarter=3)
+    lecturas = extraer_lecturas(pdf_bytes, year=2026, quarter=3)
 
-    print(f"Se extrajeron {len(mensajes)} lecturas de marea.")
-    for m in mensajes[:5]:
-        print(m)
-    # En tu pipeline real, aquí iterarías enviando cada uno con send_message()
+    print(f"Se extrajeron {len(lecturas)} lecturas de marea.")
+    mas_cercana = lectura_mas_cercana_a_ahora(lecturas)
+    print("Lectura más cercana a ahora:", mas_cercana)
