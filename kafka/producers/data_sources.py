@@ -34,6 +34,8 @@ REFRESH_SECONDS = 60 * 60  # 1 hora
 # así que basta con refrescarlo una vez al día.
 NOAA_REFRESH_SECONDS = 60 * 60 * 24  # 24 horas
 NOAA_ONI_URL = "https://www.cpc.ncep.noaa.gov/data/indices/oni.ascii.txt"
+OPENMETEO_URL = "https://api.open-meteo.com/v1/forecast"
+OPENMETEO_REFRESH_SECONDS = 60 * 15  # cada 15 minutos (intervalo real de la API)
 
 _cache = {
     "tide_m": {"value": None, "last_fetch": 0},
@@ -81,6 +83,33 @@ def get_sst_c():
 
     return entry["value"]
 
+_cache["precip_mm_h"] = {"value": None, "last_fetch": 0}
+
+def get_precip_mm_h():
+    """Precipitación real actual en Guayaquil desde Open-Meteo (sin API key)."""
+    entry = _cache["precip_mm_h"]
+    ahora = time.time()
+
+    if entry["value"] is None or (ahora - entry["last_fetch"]) > OPENMETEO_REFRESH_SECONDS:
+        try:
+            resp = requests.get(OPENMETEO_URL, params={
+                "latitude": -2.17,
+                "longitude": -79.92,
+                "current": "precipitation",
+                "timezone": "America/Guayaquil"
+            }, timeout=10)
+            resp.raise_for_status()
+            data = resp.json()
+            entry["value"] = float(data["current"]["precipitation"])
+            entry["last_fetch"] = ahora
+            print(f"[data_sources] Precipitación real Open-Meteo: {entry['value']} mm")
+        except Exception as e:
+            print(f"⚠️ [data_sources] Falló Open-Meteo ({e}). Usando último valor.")
+
+    if entry["value"] is None:
+        entry["value"] = round(random.uniform(0, 30), 2)
+
+    return entry["value"]
 
 def get_tide_m(year=None, quarter=None):
     """Devuelve la altura de marea más reciente disponible.

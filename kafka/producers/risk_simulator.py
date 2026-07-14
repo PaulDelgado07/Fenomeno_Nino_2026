@@ -20,8 +20,7 @@ import time
 from datetime import datetime
 
 from producer import send_message
-from data_sources import get_tide_m
-
+from data_sources import get_tide_m, get_precip_mm_h  
 
 TOPICS = {
     "precipitation": "precip-gpm",
