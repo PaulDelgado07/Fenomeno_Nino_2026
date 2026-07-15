@@ -2011,3 +2011,55 @@ INFO:     127.0.0.1:56401 - "GET /api/alertas HTTP/1.1" 200 OK
 INFO:     127.0.0.1:56401 - "GET /api/riesgo/actual HTTP/1.1" 200 OK
 INFO:     127.0.0.1:56404 - "GET /api/alertas HTTP/1.1" 200 OK
 INFO:     127.0.0.1:56426 - "GET /api/sst/historico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56426 - "GET /api/riesgo/actual HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56404 - "GET /api/sst/historico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56401 - "GET /api/alertas HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56401 - "GET /api/riesgo/actual HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56404 - "GET /api/sst/historico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56426 - "GET /api/alertas HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56426 - "GET /api/riesgo/actual HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56404 - "GET /api/sst/historico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56401 - "GET /api/alertas HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56401 - "GET /api/riesgo/actual HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56404 - "GET /api/sst/historico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56426 - "GET /api/alertas HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56426 - "GET /api/riesgo/actual HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56404 - "GET /api/sst/historico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56401 - "GET /api/alertas HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56401 - "GET /api/riesgo/actual HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56404 - "GET /api/sst/historico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56426 - "GET /api/alertas HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56426 - "GET /api/riesgo/actual HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56404 - "GET /api/sst/historico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56401 - "GET /api/alertas HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56401 - "GET /api/riesgo/actual HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56404 - "GET /api/sst/historico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56426 - "GET /api/alertas HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56426 - "GET /api/riesgo/actual HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56404 - "GET /api/sst/historico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56401 - "GET /api/alertas HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56401 - "GET /api/riesgo/actual HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56426 - "GET /api/alertas HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56404 - "GET /api/sst/historico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56404 - "GET /api/riesgo/actual HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56426 - "GET /api/sst/historico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56401 - "GET /api/alertas HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56401 - "GET /api/riesgo/actual HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56426 - "GET /api/sst/historico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56404 - "GET /api/alertas HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56404 - "GET /api/riesgo/actual HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56426 - "GET /api/sst/historico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56401 - "GET /api/alertas HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56401 - "GET /api/riesgo/actual HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56426 - "GET /api/sst/historico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56404 - "GET /api/alertas HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56404 - "GET /api/riesgo/actual HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56426 - "GET /api/sst/historico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56401 - "GET /api/alertas HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56401 - "GET /api/riesgo/actual HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56426 - "GET /api/sst/historico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56404 - "GET /api/alertas HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [21468]
