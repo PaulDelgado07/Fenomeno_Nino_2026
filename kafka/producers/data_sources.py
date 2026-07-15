@@ -27,7 +27,7 @@ OPENMETEO_URL = "https://api.open-meteo.com/v1/forecast"
 OPENMETEO_REFRESH_SECONDS = 60 * 15  # 15 minutos para Open-Meteo
 
 # CONSTANTES HISTÓRICAS REALES (Solo se usan si el servidor externo está caído y no hay caché)
-FALLBACK_SST_C = 0.98          # Anomalía ONI histórica reciente (región Niño 3.4)
+FALLBACK_SST_C = 28.20         # Temperatura promedio histórica del Pacífico en transición (región 3.4)
 FALLBACK_PRECIP_MM_H = 0.0     # Lo normal es que no esté lloviendo (0.0 mm/h)
 FALLBACK_TIDE_M = 2.50         # Nivel medio de marea astronómica en el Puerto de Guayaquil (metros)
 
@@ -39,7 +39,13 @@ _cache = {
 
 
 def get_sst_c():
-    """Devuelve la anomalía de SST más reciente del Pacífico (región Niño 3.4) desde NOAA CPC (índice ONI)."""
+    """Devuelve la SST real más reciente del Pacífico (región Niño 3.4) desde NOAA CPC.
+
+    Se usa la temperatura absoluta (columna TOTAL), no la anomalía (ANOM), porque
+    el job Spark (read_kafka.py) y el endpoint /api/enso/estado calculan la anomalía
+    ellos mismos restando un umbral climatológico fijo de 27.0°C. Enviar la anomalía
+    aquí duplicaría/rompería ese cálculo downstream.
+    """
     entry = _cache["sst_c"]
     ahora = time.time()
 
@@ -56,9 +62,9 @@ def get_sst_c():
             df = pd.read_csv(StringIO(resp.text), sep=r"\s+")
             ultimo = df.iloc[-1]
 
-            entry["value"] = float(ultimo["ANOM"])
+            entry["value"] = float(ultimo["TOTAL"])
             entry["last_fetch"] = ahora
-            print(f"[data_sources] Anomalía SST actualizada desde NOAA CPC: {entry['value']} °C ({ultimo['SEAS']} {int(ultimo['YR'])})")
+            print(f"[data_sources] SST actualizada desde NOAA CPC: {entry['value']} °C ({ultimo['SEAS']} {int(ultimo['YR'])})")
 
         except Exception as e:
             print(f"⚠️ [data_sources] Falló el scraping de NOAA CPC ({e}). Se intentará usar caché o fallback histórico.")

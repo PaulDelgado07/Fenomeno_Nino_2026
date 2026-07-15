@@ -1,4 +1,4 @@
-"""Carga los datos SST procesados de HDFS en PostgreSQL."""
+#Carga los datos SST procesados de HDFS en PostgreSQL.
 
 from pyspark.sql import SparkSession
 

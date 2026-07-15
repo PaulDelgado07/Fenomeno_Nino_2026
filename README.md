@@ -6,10 +6,10 @@ Sistema de monitoreo en tiempo real de riesgo de inundación, temperatura del ma
 
 ```
 Productores Kafka  →  Spark Streaming  →  HDFS + PostgreSQL
-                                              ↓
-                                    FastAPI + Dashboard Web
-                                              ↓
-                                         Grafana
+                                               ↓
+                                          Dashboard Web
+                                               ↓
+                                          Dashboard Web
 ```
 
 ## Requisitos previos
@@ -115,7 +115,6 @@ Abre **http://localhost:8000** en tu navegador.
 | Servicio | URL | Credenciales |
 |---|---|---|
 | **Dashboard principal** | http://localhost:8000 | — |
-| Grafana | http://localhost:3000 | admin / admin |
 | Spark UI | http://localhost:8080 | — |
 | HDFS NameNode | http://localhost:9870 | — |
 | API REST | http://localhost:8000/api/status | — |

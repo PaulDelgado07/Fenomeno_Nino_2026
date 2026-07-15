@@ -26,6 +26,12 @@ echo "Verificando servicios Docker..."
 wait_for "Postgres" "docker exec gye_postgres pg_isready -U el_nino -d el_nino"
 wait_for "Kafka" "docker exec gye_kafka /opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server localhost:9092"
 wait_for "HDFS NameNode" "curl -sf http://localhost:9870"
+# El UI web (puerto 9870) responde 200 aunque el NameNode siga en "safe mode"
+# arrancando (cargando el FSImage, esperando el reporte de bloques del datanode).
+# Si Spark intenta escribir su checkpoint en HDFS durante ese safe mode, la
+# conexión RPC (puerto 9000) se rechaza y el job se cae de inmediato al arrancar.
+# Por eso hay que esperar explícitamente a que el NameNode confirme que salió.
+wait_for "HDFS fuera de Safe Mode" "docker exec namenode hdfs dfsadmin -safemode get | grep -q 'OFF'"
 wait_for "Spark Master" "curl -sf http://localhost:8080"
 
 echo "Todos los servicios están listos."

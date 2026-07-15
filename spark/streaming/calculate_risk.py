@@ -1,4 +1,4 @@
-"""Calcula en streaming el riesgo de inundación por zona de Guayaquil."""
+#Calcula en streaming el riesgo de inundación por zona de Guayaquil.
 
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, coalesce, from_json, lit, max, to_date, to_timestamp, when, window
@@ -48,8 +48,6 @@ sngr_schema = StructType([
         StructField("lon", DoubleType(), False),
     ]), False),
 ])
-
-
 
 spark = (
     SparkSession.builder
@@ -155,7 +153,7 @@ risk_query = (
     .start()
 )
 
-# --- FLUJO DE ALERTAS SNGR ---
+# FLUJO DE ALERTAS SNGR
 sngr_df = (
     spark.readStream
     .format("kafka")
