@@ -678,10 +678,6 @@ select:focus {
     background: var(--bg-muted);
 }
 
-.alert-item.Verde    { border-left-color: var(--risk-low); background: #f0fdf4; }
-.alert-item.Amarilla { border-left-color: var(--risk-medium); background: #fffbeb; }
-.alert-item.Naranja  { border-left-color: var(--risk-high); background: #fff7ed; }
-.alert-item.Roja     { border-left-color: var(--risk-critical); background: #fff5f5; }
 .alert-item.info     { border-left-color: var(--accent); background: var(--accent-light); }
 
 .alert-time {

@@ -1,7 +1,8 @@
 #Calcula en streaming el riesgo de inundación por zona de Guayaquil.
 
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import col, coalesce, from_json, lit, max, to_date, to_timestamp, when, window
+from pyspark.sql.functions import col, coalesce, from_json, lit, max, row_number, to_date, to_timestamp, when, window
+from pyspark.sql.window import Window as WindowSpec
 from pyspark.sql.types import DoubleType, StringType, StructField, StructType
 
 
@@ -133,14 +134,35 @@ risk = (
 
 
 def save_risk(batch_df, batch_id):
-    """Guarda el cálculo en HDFS y conserva en PostgreSQL el estado vigente por zona."""
+    """Guarda el cálculo en HDFS (historial completo de ventanas) y conserva en
+    PostgreSQL solo el estado vigente por zona (1 fila por zona).
+
+    La ventana deslizante (30s / 5s) hace que un mismo evento caiga en varias
+    ventanas superpuestas a la vez, así que cada lote trae varias filas por
+    zona. Eso está bien para el historial en HDFS, pero Postgres es la capa de
+    "estado actual" que consulta el dashboard — si se escriben todas las
+    ventanas, el conteo de zonas en riesgo se infla (una misma zona cuenta
+    varias veces). Por eso nos quedamos solo con la ventana más reciente de
+    cada zona antes de escribir a Postgres.
+    """
     if batch_df.isEmpty():
         return
 
     batch_df.persist()
     batch_df.write.mode("append").parquet(PROCESSED_PATH)
-    batch_df.write.mode("overwrite").jdbc(POSTGRES_URL, "riesgo_zonas", properties=POSTGRES_PROPERTIES)
-    print(f"Lote de riesgo {batch_id} almacenado para {batch_df.count()} zonas.")
+
+    latest_per_zone = (
+        batch_df
+        .withColumn(
+            "rn",
+            row_number().over(WindowSpec.partitionBy("zone").orderBy(col("calculated_at").desc())),
+        )
+        .filter(col("rn") == 1)
+        .drop("rn")
+    )
+    latest_per_zone.write.mode("overwrite").jdbc(POSTGRES_URL, "riesgo_zonas", properties=POSTGRES_PROPERTIES)
+
+    print(f"Lote de riesgo {batch_id}: {batch_df.count()} filas (ventanas) → {latest_per_zone.count()} zonas vigentes en Postgres.")
     batch_df.unpersist()
 
 

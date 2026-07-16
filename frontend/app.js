@@ -779,7 +779,7 @@ function fetchAlerts() {
 
             container.innerHTML = data.map(a => {
                 const time = new Date(a.event_time).toLocaleTimeString('es-EC', { hour: '2-digit', minute: '2-digit' });
-                const lvlIcon = { 'Roja': '🔴', 'Naranja': '🟠', 'Amarilla': '🟡', 'Verde': '🟢' }[a.alert_level] || '⚪';
+                const lvlIcon = { 'Roja': '', 'Naranja': '', 'Amarilla': '', 'Verde': '' }[a.alert_level] || '⚪';
                 return `
                     <div class="alert-item ${a.alert_level}">
                         <p class="alert-time">SNGR · ${time} · Alerta ${a.alert_level} ${lvlIcon}</p>
